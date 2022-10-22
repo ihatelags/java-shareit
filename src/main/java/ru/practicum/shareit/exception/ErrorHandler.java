@@ -12,7 +12,7 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleConstraintViolationException(final ConstraintViolationException e) {
         log.info("Ошибка валидации: " + e.getMessage());
@@ -51,6 +51,13 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleEmailNotUniqueException(final EmailNotUniqueException e) {
         log.info("Такой email уже существует: {}", e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleThrowable(Throwable e) {
+        log.info("Произошла непредвиденная ошибка: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 }
