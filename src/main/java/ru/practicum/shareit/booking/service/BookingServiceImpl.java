@@ -73,37 +73,37 @@ public class BookingServiceImpl implements BookingService {
         getUser(userId);
         switch (state) {
             case CURRENT:
-                return bookingRepository.findAllByBooker_IdAndStartBeforeAndEndAfterOrderByStartDesc(userId,
+                return bookingRepository.findAllByBookerIdAndStartBeforeAndEndAfterOrderByStartDesc(userId,
                                 LocalDateTime.now(), LocalDateTime.now())
                         .orElseThrow(() -> new BookingNotFoundException("Текущих бронирований для пользователя "
                                 + userId + " не найдено"))
                         .stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
             case PAST:
-                return bookingRepository.findAllByBooker_IdAndEndIsBeforeOrderByStartDesc(userId,
+                return bookingRepository.findAllByBookerIdAndEndIsBeforeOrderByStartDesc(userId,
                                 LocalDateTime.now())
                         .orElseThrow(() -> new BookingNotFoundException("Завершенных бронирований для пользователя "
                                 + userId + " не найдено"))
                         .stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
             case FUTURE:
-                return bookingRepository.findAllByBooker_IdAndStartIsAfterOrderByStartDesc(userId,
+                return bookingRepository.findAllByBookerIdAndStartIsAfterOrderByStartDesc(userId,
                                 LocalDateTime.now())
                         .orElseThrow(() -> new BookingNotFoundException("Будущих бронирований для пользователя "
                                 + userId + " не найдено"))
                         .stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
             case WAITING:
-                return bookingRepository.findAllByBooker_IdAndStatusOrderByStartDesc(userId,
+                return bookingRepository.findAllByBookerIdAndStatusOrderByStartDesc(userId,
                                 BookingStatus.WAITING)
                         .orElseThrow(() -> new BookingNotFoundException("Ожидающих подтверждения бронирований " +
                                 "для пользователя " + userId + " не найдено"))
                         .stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
             case REJECTED:
-                return bookingRepository.findAllByBooker_IdAndStatusOrderByStartDesc(userId,
+                return bookingRepository.findAllByBookerIdAndStatusOrderByStartDesc(userId,
                                 BookingStatus.REJECTED)
                         .orElseThrow(() -> new BookingNotFoundException("Отклоненных бронирований для пользователя "
                                 + userId + " не найдено"))
                         .stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
             default:
-                return bookingRepository.findAllByBooker_IdOrderByStartDesc(userId)
+                return bookingRepository.findAllByBookerIdOrderByStartDesc(userId)
                         .orElseThrow(() -> new BookingNotFoundException("Бронирований для пользователя "
                                 + userId + " не найдено"))
                         .stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
@@ -122,7 +122,7 @@ public class BookingServiceImpl implements BookingService {
         switch (state) {
             case CURRENT:
                 items.forEach(item -> bookings.addAll(bookingRepository
-                        .findAllByItem_IdAndStartBeforeAndEndAfterOrderByStartDesc(item.getId(), LocalDateTime.now(),
+                        .findAllByItemIdAndStartBeforeAndEndAfterOrderByStartDesc(item.getId(), LocalDateTime.now(),
                                 LocalDateTime.now())));
                 if (bookings.size() != 0) {
                     return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
@@ -132,7 +132,7 @@ public class BookingServiceImpl implements BookingService {
                 }
             case PAST:
                 items.forEach(item -> bookings.addAll(bookingRepository
-                        .findAllByItem_IdAndEndIsBeforeOrderByStartDesc(item.getId(), LocalDateTime.now())));
+                        .findAllByItemIdAndEndIsBeforeOrderByStartDesc(item.getId(), LocalDateTime.now())));
                 if (bookings.size() != 0) {
                     return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
                 } else {
@@ -141,7 +141,7 @@ public class BookingServiceImpl implements BookingService {
                 }
             case FUTURE:
                 items.forEach(item -> bookings.addAll(bookingRepository
-                        .findAllByItem_IdAndStartIsAfterOrderByStartDesc(item.getId(), LocalDateTime.now())));
+                        .findAllByItemIdAndStartIsAfterOrderByStartDesc(item.getId(), LocalDateTime.now())));
                 if (bookings.size() != 0) {
                     return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
                 } else {
@@ -150,7 +150,7 @@ public class BookingServiceImpl implements BookingService {
                 }
             case WAITING:
                 items.forEach(item -> bookings.addAll(bookingRepository
-                        .findAllByItem_IdAndStatusOrderByStartDesc(item.getId(), BookingStatus.WAITING)));
+                        .findAllByItemIdAndStatusOrderByStartDesc(item.getId(), BookingStatus.WAITING)));
                 if (bookings.size() != 0) {
                     return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
                 } else {
@@ -159,7 +159,7 @@ public class BookingServiceImpl implements BookingService {
                 }
             case REJECTED:
                 items.forEach(item -> bookings.addAll(bookingRepository
-                        .findAllByItem_IdAndStatusOrderByStartDesc(item.getId(), BookingStatus.REJECTED)));
+                        .findAllByItemIdAndStatusOrderByStartDesc(item.getId(), BookingStatus.REJECTED)));
                 if (bookings.size() != 0) {
                     return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
                 } else {
@@ -168,7 +168,7 @@ public class BookingServiceImpl implements BookingService {
                 }
             default:
                 items.forEach(item -> bookings.addAll(bookingRepository
-                        .findAllByItem_IdOrderByStartDesc(item.getId())));
+                        .findAllByItemIdOrderByStartDesc(item.getId())));
                 if (bookings.size() != 0) {
                     return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
                 } else {

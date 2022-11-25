@@ -36,9 +36,9 @@ public class ItemServiceImpl implements ItemService {
     public ItemDtoWithBooking getById(long itemId, long userId) {
         if (getItem(itemId).getOwner().getId() == userId) {
             return ItemMapper.toItemDtoWithBooking(getItem(itemId), commentsRepository.findAllByItem_Id(itemId),
-                    bookingRepository.findFirstBookingByItem_IdAndEndIsBeforeOrderByEndDesc(itemId,
+                    bookingRepository.findFirstBookingByItemIdAndEndIsBeforeOrderByEndDesc(itemId,
                             LocalDateTime.now()).orElse(null),
-                    bookingRepository.findFirstBookingByItem_IdAndStartIsAfterOrderByStart(itemId,
+                    bookingRepository.findFirstBookingByItemIdAndStartIsAfterOrderByStart(itemId,
                             LocalDateTime.now()).orElse(null));
         } else {
             return ItemMapper.toItemDtoWithBooking(getItem(itemId), commentsRepository.findAllByItem_Id(itemId),
@@ -52,9 +52,9 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new UserNotFoundException("Такого пользователя не существует"))));
         return items.stream().map(item -> ItemMapper
                         .toItemDtoWithBooking(item, commentsRepository.findAllByItem_Id(item.getId()),
-                                bookingRepository.findFirstBookingByItem_IdAndEndIsBeforeOrderByEndDesc(item.getId(),
+                                bookingRepository.findFirstBookingByItemIdAndEndIsBeforeOrderByEndDesc(item.getId(),
                                         LocalDateTime.now()).orElse(null),
-                                bookingRepository.findFirstBookingByItem_IdAndStartIsAfterOrderByStart(item.getId(),
+                                bookingRepository.findFirstBookingByItemIdAndStartIsAfterOrderByStart(item.getId(),
                                         LocalDateTime.now()).orElse(null)))
                 .sorted(Comparator.comparing(ItemDtoWithBooking::getId)).collect(Collectors.toList());
     }
@@ -114,7 +114,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private boolean checkBooking(long userId, long itemId) {
-        return bookingRepository.existsBookingByBooker_IdAndItem_IdAndStatusEqualsAndEndIsBefore(userId,
+        return bookingRepository.existsBookingByBookerIdAndItemIdAndStatusEqualsAndEndIsBefore(userId,
                 itemId, BookingStatus.APPROVED, LocalDateTime.now());
     }
 
