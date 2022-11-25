@@ -41,6 +41,13 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleBookingNotFoundException(final BookingNotFoundException e) {
+        log.info("Предмет недоступен: " + e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse handleAccessErrorException(final AccessErrorException e) {
         log.info("Ошибка доступа: {}", e.getMessage());
@@ -52,6 +59,49 @@ public class ErrorHandler {
     public ErrorResponse handleEmailNotUniqueException(final EmailNotUniqueException e) {
         log.info("Такой email уже существует: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidationException(final ValidationException e) {
+        log.info("Ошибка валидации: " + e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleItemAvailableException(final ItemAvailableException e) {
+        log.info("Предмет недоступен: " + e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBookingConfirmationException(final BookingConfirmationException e) {
+        log.info("Ошибка подтверждения: " + e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBookingBadRequestException(final BookingBadRequestException e) {
+        log.info("Ошибка запроса бронирования: " + e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler(BadStatusException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBadStatusException(BadStatusException e) {
+        log.info(e.getMessage(), e);
+        return new ErrorResponse("Unknown state: " + e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidCommentException(final InvalidCommentException e) {
+        return new ErrorResponse(
+                e.getMessage()
+        );
     }
 
     @ExceptionHandler(Throwable.class)

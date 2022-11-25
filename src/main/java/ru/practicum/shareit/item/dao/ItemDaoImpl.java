@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.repository;
+package ru.practicum.shareit.item.dao;
 
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.AccessErrorException;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class ItemRepositoryImpl implements ItemRepository {
+public class ItemDaoImpl implements ItemDao {
 
     private long id = 0;
     private final Map<Long, Item> items = new HashMap<>();
@@ -62,7 +62,9 @@ public class ItemRepositoryImpl implements ItemRepository {
         if (itemDto.getAvailable() != null) {
             items.get(itemId).setAvailable(itemDto.getAvailable());
         }
-        // if (itemDto.getRequest() != null) {items.get(itemId).setRequest(itemDto.getRequest());}
+        //if (itemDto.getRequest() != null) {
+        //   items.get(itemId).setRequest(itemDto.getRequest());
+        // }
         return items.get(itemId);
     }
 
