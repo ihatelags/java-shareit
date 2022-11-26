@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BookingInputDto {
     private long id;
-    private Long bookerId;
+    private long bookerId;
     @NotNull
-    private Long itemId;
+    private long itemId;
     @NotNull
     @JsonProperty("start")
     private LocalDateTime startDate;

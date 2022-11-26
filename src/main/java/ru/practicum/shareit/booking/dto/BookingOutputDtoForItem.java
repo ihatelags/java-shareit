@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.practicum.shareit.booking.BookingStatus;
-import ru.practicum.shareit.item.dto.ItemDto;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 public class BookingOutputDtoForItem {
     private long id;
     private long bookerId;
-    private ItemDto item;
+    private long itemId;
     @JsonProperty("start")
     private LocalDateTime startDate;
     @JsonProperty("end")
