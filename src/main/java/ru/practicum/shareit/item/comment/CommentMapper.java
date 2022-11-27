@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item.comment;
 
+import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
@@ -23,8 +25,28 @@ public class CommentMapper {
                 comment.getId(),
                 comment.getText(),
                 comment.getAuthor().getName(),
-                ItemMapper.toItemDto(comment.getItem()),
+                ItemMapper.toItemDto(comment.getItem()).getId(),
                 comment.getCreated()
         );
+    }
+
+    public static ItemDto.Comment toItemComment(Comment comment) {
+        return new ItemDto.Comment(
+                comment.getId(),
+                comment.getText(),
+                comment.getItem().getId(),
+                comment.getAuthor().getId(),
+                comment.getAuthor().getName(),
+                comment.getCreated());
+    }
+
+    public static ItemDtoWithBooking.Comment toItemWithBookingComment(Comment comment) {
+        return new ItemDtoWithBooking.Comment(
+                comment.getId(),
+                comment.getText(),
+                comment.getItem().getId(),
+                comment.getAuthor().getId(),
+                comment.getAuthor().getName(),
+                comment.getCreated());
     }
 }

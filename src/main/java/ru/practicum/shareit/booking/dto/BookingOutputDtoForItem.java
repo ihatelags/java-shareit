@@ -18,4 +18,5 @@ public class BookingOutputDtoForItem {
     @JsonProperty("end")
     private LocalDateTime endDate;
     private BookingStatus status;
+
 }

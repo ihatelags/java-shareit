@@ -32,7 +32,7 @@ public class ItemMapper {
                 item.getDescription(),
                 item.isAvailable(),
                 comments.size() != 0 ? comments.stream()
-                        .map(CommentMapper::toCommentDto).collect(Collectors.toList()) : new ArrayList<>(),
+                        .map(CommentMapper::toItemWithBookingComment).collect(Collectors.toList()) : new ArrayList<>(),
                 lastBooking != null ? BookingMapper.toBookingDtoForItem(lastBooking) : null,
                 nextBooking != null ? BookingMapper.toBookingDtoForItem(nextBooking) : null
         );
