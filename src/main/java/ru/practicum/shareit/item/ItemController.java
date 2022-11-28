@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.comment.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.validate.OnCreate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -22,17 +25,21 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/{itemId}")
-    public ItemDto getById(@PathVariable long itemId, HttpServletRequest httpServletRequest) {
-        log.info("Получен запрос к эндпоинту: {} {}, item id: {}",
+    @Transactional(rollbackOn = Exception.class)
+    public ItemDtoWithBooking getById(@PathVariable long itemId, @RequestHeader("X-Sharer-User-Id") long userId,
+                                      HttpServletRequest httpServletRequest) {
+        log.info("Получен запрос к эндпоинту: {} {}, item id: {}, user id: {}",
                 httpServletRequest.getMethod(),
                 httpServletRequest.getRequestURI(),
-                itemId);
-        return itemService.getById(itemId);
+                itemId,
+                userId);
+        return itemService.getById(itemId, userId);
     }
 
     @GetMapping
-    public List<ItemDto> getAllByUserId(@RequestHeader("X-Sharer-User-Id") long userId,
-                                        HttpServletRequest httpServletRequest) {
+    @Transactional(rollbackOn = Exception.class)
+    public List<ItemDtoWithBooking> getAllByUserId(@RequestHeader("X-Sharer-User-Id") long userId,
+                                                   HttpServletRequest httpServletRequest) {
         log.info("Получен запрос {} к эндпоинту: {}, user id: {}",
                 httpServletRequest.getMethod(),
                 httpServletRequest.getRequestURI(),
@@ -85,5 +92,17 @@ public class ItemController {
                 userId,
                 itemId);
         itemService.delete(userId, itemId);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable long itemId,
+                                 @Valid @RequestBody CommentDto commentDto, HttpServletRequest httpServletRequest) {
+        log.info("Получен запрос {} к эндпоинту: {}, user id: {}, item id: {}, тело запроса: {}",
+                httpServletRequest.getMethod(),
+                httpServletRequest.getRequestURI(),
+                userId,
+                itemId,
+                commentDto);
+        return itemService.addComment(userId, itemId, commentDto);
     }
 }

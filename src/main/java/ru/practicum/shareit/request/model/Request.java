@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.request.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,20 +12,16 @@ import javax.persistence.*;
 @Setter
 @RequiredArgsConstructor
 @Entity
-@Table(name = "items")
+@Table(name = "request")
 @AllArgsConstructor
-public class Item {
+public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id", nullable = false)
-    private long id;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id")
-    private User owner;
-    @Column(name = "name")
-    private String name;
+    @Column(name = "request_id", nullable = false)
+    private Long id;
     @Column(name = "description")
     private String description;
-    @Column(name = "is_available")
-    private boolean available;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "requestor_id")
+    private User requestor;
 }
