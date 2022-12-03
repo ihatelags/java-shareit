@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class ItemDto {
+public class BookingDto {
     private long id;
     @NotBlank(groups = OnCreate.class)
     private String name;

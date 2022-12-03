@@ -241,4 +241,23 @@ class BookingServiceImplTest {
         assertNotNull(bookingDtosRejected);
     }
 
+    @Test
+    void shouldThrowUserNotFoundExceptionTest() {
+        assertThrows(RuntimeException.class, () -> bookingService.getAllBookingByOwner(99L,
+                StateStatus.ALL, 1, 10));
+    }
+
+    @Test
+    void shouldThrowBookingNotFoundExceptionTest() {
+        assertThrows(RuntimeException.class, () -> bookingService.getById(1L,
+                99L));
+    }
+
+    @Test
+    void shouldThrowItemNotFoundExceptionTest() {
+        bookingInputDto.setItemId(99L);
+        assertThrows(RuntimeException.class, () -> bookingService.add(1L,
+                bookingInputDto));
+    }
+
 }

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.comment.CommentDto;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.BookingDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.validate.OnCreate;
@@ -54,12 +54,12 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> searchByText(@RequestParam(value = "text", required = false) String text,
-                                      @PositiveOrZero @RequestParam(name = "from",
-                                              defaultValue = "0") int from,
-                                      @Positive @RequestParam(name = "size",
-                                              defaultValue = "10") int size,
-                                      HttpServletRequest httpServletRequest) {
+    public List<BookingDto> searchByText(@RequestParam(value = "text", required = false) String text,
+                                         @PositiveOrZero @RequestParam(name = "from",
+                                                 defaultValue = "0") int from,
+                                         @Positive @RequestParam(name = "size",
+                                                 defaultValue = "10") int size,
+                                         HttpServletRequest httpServletRequest) {
         log.info("Получен запрос {} к эндпоинту: {}, текст поиска: {}",
                 httpServletRequest.getMethod(),
                 httpServletRequest.getRequestURI(),
@@ -69,8 +69,8 @@ public class ItemController {
 
     @PostMapping
     @Validated(OnCreate.class)
-    public ItemDto add(@RequestHeader("X-Sharer-User-Id") long userId, @Valid @RequestBody ItemDto itemDto,
-                       HttpServletRequest httpServletRequest) {
+    public BookingDto add(@RequestHeader("X-Sharer-User-Id") long userId, @Valid @RequestBody BookingDto itemDto,
+                          HttpServletRequest httpServletRequest) {
         log.info("Получен запрос {} к эндпоинту: {}, user id: {}, тело запроса: {}",
                 httpServletRequest.getMethod(),
                 httpServletRequest.getRequestURI(),
@@ -80,10 +80,10 @@ public class ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@RequestHeader("X-Sharer-User-Id") long userId,
-                          @PathVariable long itemId,
-                          @RequestBody ItemDto itemDto,
-                          HttpServletRequest httpServletRequest) {
+    public BookingDto update(@RequestHeader("X-Sharer-User-Id") long userId,
+                             @PathVariable long itemId,
+                             @RequestBody BookingDto itemDto,
+                             HttpServletRequest httpServletRequest) {
         log.info("Получен запрос {} к эндпоинту: {}, user id: {}, item id: {}, тело запроса: {}",
                 httpServletRequest.getMethod(),
                 httpServletRequest.getRequestURI(),

@@ -14,7 +14,7 @@ import ru.practicum.shareit.booking.dto.BookingOutputDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.item.comment.CommentDto;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.BookingDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
@@ -26,6 +26,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -46,7 +47,7 @@ class BookingControllerTest {
     @MockBean
     BookingService bookingService;
 
-    ItemDto itemDto;
+    BookingDto itemDto;
     ItemDtoWithBooking itemDtoWithBooking;
     List<CommentDto> comments = new ArrayList<>();
 
@@ -68,7 +69,7 @@ class BookingControllerTest {
         timeEnd = LocalDateTime.of(2023, 1, 1, 1, 0);
         user = new User(1L, "user", "user@user.com");
         user2 = new User(2L, "user2", "user2@user.com");
-        itemDto = new ItemDto(1L, "item", "description", false, null, comments);
+        itemDto = new BookingDto(1L, "item", "description", false, null, comments);
         itemDtoWithBooking = new ItemDtoWithBooking(1L, "item", "description", false,
                 null, null, null);
         item1 = new Item(1L, user, "item 1", "item 1 description", true, null);
@@ -174,6 +175,9 @@ class BookingControllerTest {
 
         verify(bookingService, times(1))
                 .getAllBookingByOwner(anyLong(), any(StateStatus.class), anyInt(), anyInt());
+
+        assertThrows(RuntimeException.class, () -> bookingService.getAllBookingByOwner(1L,
+                StateStatus.fromString("bla"), 1, 10));
     }
 
 }

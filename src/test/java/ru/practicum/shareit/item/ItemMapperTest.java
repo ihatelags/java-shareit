@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.practicum.shareit.item.comment.Comment;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.BookingDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -23,18 +23,18 @@ class ItemMapperTest {
     private ItemMapper itemMapper;
     private User user;
     private Item item;
-    ItemDto itemDto;
+    BookingDto itemDto;
 
     @BeforeEach
     void beforeEach() {
         user = new User(1L, "user 1", "user1@email");
         item = new Item(1L, user, "дрель", "дрель ударная Макита", true, 1L);
-        itemDto = new ItemDto(1L, "дрель", "дрель ударная Макита", true, 1L, null);
+        itemDto = new BookingDto(1L, "дрель", "дрель ударная Макита", true, 1L, null);
     }
 
     @Test
     void shouldProperlyMapToItemDtoTest() {
-        ItemDto itemDto = itemMapper.toItemDto(item);
+        BookingDto itemDto = itemMapper.toItemDto(item);
 
         Assertions.assertNotNull(itemDto);
         Assertions.assertEquals(item.getId(), itemDto.getId());

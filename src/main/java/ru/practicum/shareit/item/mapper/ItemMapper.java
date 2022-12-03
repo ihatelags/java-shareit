@@ -6,7 +6,7 @@ import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.comment.Comment;
 import ru.practicum.shareit.item.comment.CommentMapper;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.BookingDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
@@ -21,8 +21,8 @@ public class ItemMapper {
     private final BookingMapper bookingMapper;
     private final CommentMapper commentMapper;
 
-    public ItemDto toItemDto(Item item) {
-        return new ItemDto(
+    public BookingDto toItemDto(Item item) {
+        return new BookingDto(
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
@@ -46,7 +46,7 @@ public class ItemMapper {
         );
     }
 
-    public Item toItem(ItemDto itemDto, User owner) {
+    public Item toItem(BookingDto itemDto, User owner) {
         return new Item(
                 itemDto.getId(),
                 owner,

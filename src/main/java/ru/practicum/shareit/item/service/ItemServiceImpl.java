@@ -12,7 +12,7 @@ import ru.practicum.shareit.item.comment.CommentDto;
 import ru.practicum.shareit.item.comment.CommentMapper;
 import ru.practicum.shareit.item.comment.CommentsRepository;
 import ru.practicum.shareit.item.dao.ItemRepository;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.BookingDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -70,7 +70,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> searchByText(String text, int from, int size) {
+    public List<BookingDto> searchByText(String text, int from, int size) {
         int page = from / size;
         if (text.isBlank()) {
             return new ArrayList<>();
@@ -82,7 +82,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto add(long userId, ItemDto itemDto) {
+    public BookingDto add(long userId, BookingDto itemDto) {
         User owner = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Такого пользователя" +
                 " не существует"));
         Item item = itemMapper.toItem(itemDto, owner);
@@ -90,7 +90,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto update(long userId, long itemId, ItemDto itemDto) {
+    public BookingDto update(long userId, long itemId, BookingDto itemDto) {
         Item item = getItem(itemId);
         checkOwner(userId, itemId);
         if (itemDto.getName() != null) {

@@ -10,7 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.item.comment.CommentDto;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.BookingDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.service.ItemService;
 
@@ -39,11 +39,11 @@ class ItemControllerTest {
     @MockBean
     ItemService itemService;
 
-    ItemDto itemDto;
+    BookingDto itemDto;
 
     @BeforeEach
     void beforeEach() {
-        itemDto = new ItemDto(1L, "item", "description", false, null, new ArrayList<>());
+        itemDto = new BookingDto(1L, "item", "description", false, null, new ArrayList<>());
     }
 
     @Test

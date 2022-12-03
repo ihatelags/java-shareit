@@ -16,7 +16,7 @@ import ru.practicum.shareit.item.comment.CommentDto;
 import ru.practicum.shareit.item.comment.CommentMapper;
 import ru.practicum.shareit.item.comment.CommentsRepository;
 import ru.practicum.shareit.item.dao.ItemRepository;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.BookingDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -54,7 +54,7 @@ class ItemServiceImplTest {
     private Item item;
     private User user;
     private User user2;
-    private ItemDto itemDto;
+    private BookingDto itemDto;
 
     @BeforeEach
     void beforeEach() {
@@ -67,7 +67,7 @@ class ItemServiceImplTest {
         user = new User(1L, "user 1", "user1@email");
         user2 = new User(2L, "user 2", "user2@email");
         item = new Item(1L, user, "дрель", "дрель ударная Макита", true, 1L);
-        itemDto = new ItemDto(1L, "дрель", "дрель ударная Макита", true, 1L, null);
+        itemDto = new BookingDto(1L, "дрель", "дрель ударная Макита", true, 1L, null);
     }
 
     @Test
@@ -79,7 +79,7 @@ class ItemServiceImplTest {
         when(itemMapper.toItemDto(any()))
                 .thenReturn(itemDto);
 
-        ItemDto itemDto2 = itemService.add(1L, itemDto);
+        BookingDto itemDto2 = itemService.add(1L, itemDto);
 
         assertNotNull(itemDto2);
         assertEquals(1L, itemDto2.getId());
@@ -192,7 +192,7 @@ class ItemServiceImplTest {
                 .thenReturn(Collections.singletonList(item));
         when(itemRepository.searchByText("дрель", PageRequest.of(1, 10)))
                 .thenReturn(List.of(item));
-        List<ItemDto> result = itemService.searchByText("дрель", 1, 10);
+        List<BookingDto> result = itemService.searchByText("дрель", 1, 10);
 
         assertNotNull(result);
     }
