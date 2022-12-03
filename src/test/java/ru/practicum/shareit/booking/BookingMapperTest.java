@@ -23,7 +23,6 @@ class BookingMapperTest {
     private User user;
     private Item item;
     private Booking booking;
-    BookingOutputDto bookingOutputDto;
     private LocalDateTime timeEnd;
 
     @BeforeEach
@@ -32,16 +31,12 @@ class BookingMapperTest {
         item = new Item(1L, user, "дрель", "дрель ударная Макита", true, 1L);
         LocalDateTime timeStart = LocalDateTime.now().plusMinutes(15);
         timeEnd = LocalDateTime.now().plusDays(15);
-        BookingOutputDto bookingOutputDto = new BookingOutputDto(1L, new BookingOutputDto.User(1L),
-                new BookingOutputDto.Item(1L, "item 1"),
-                timeStart, timeEnd,
-                BookingStatus.APPROVED);
         booking = new Booking(1L, user, item, timeStart, timeEnd, BookingStatus.APPROVED);
     }
 
     @Test
     void shouldProperlyMapToBookingOutputDtoTest() {
-        bookingOutputDto = bookingMapper.toBookingDto(booking);
+        BookingOutputDto bookingOutputDto = bookingMapper.toBookingDto(booking);
 
         Assertions.assertNotNull(bookingOutputDto);
         Assertions.assertEquals(booking.getId(), bookingOutputDto.getId());

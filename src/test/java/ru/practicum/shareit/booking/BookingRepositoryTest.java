@@ -29,7 +29,7 @@ class BookingRepositoryTest {
     @Autowired
     private BookingRepository bookingRepository;
 
-    BookingOutputDto bookingOutputDto;
+    private BookingOutputDto bookingOutputDto;
     private Booking booking;
     private Item item;
     private User userOwner;

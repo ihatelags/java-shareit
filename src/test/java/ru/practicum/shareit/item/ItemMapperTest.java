@@ -23,7 +23,7 @@ class ItemMapperTest {
     private ItemMapper itemMapper;
     private User user;
     private Item item;
-    BookingDto itemDto;
+    private BookingDto itemDto;
 
     @BeforeEach
     void beforeEach() {
