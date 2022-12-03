@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item.mapper;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.comment.Comment;
@@ -7,44 +9,51 @@ import ru.practicum.shareit.item.comment.CommentMapper;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
+@RequiredArgsConstructor
 public class ItemMapper {
+    private final BookingMapper bookingMapper;
+    private final CommentMapper commentMapper;
 
-    public static ItemDto toItemDto(Item item) {
+    public ItemDto toItemDto(Item item) {
         return new ItemDto(
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
                 item.isAvailable(),
+                item.getRequestId(),
                 new ArrayList<>()
         );
     }
 
-    public static ItemDtoWithBooking toItemDtoWithBooking(Item item, List<Comment> comments,
-                                                          Booking lastBooking, Booking nextBooking) {
+    public ItemDtoWithBooking toItemDtoWithBooking(Item item, List<Comment> comments,
+                                                   Booking lastBooking, Booking nextBooking) {
         return new ItemDtoWithBooking(
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
                 item.isAvailable(),
                 comments.size() != 0 ? comments.stream()
-                        .map(CommentMapper::toItemWithBookingComment).collect(Collectors.toList()) : new ArrayList<>(),
-                lastBooking != null ? BookingMapper.toBookingDtoForItem(lastBooking) : null,
-                nextBooking != null ? BookingMapper.toBookingDtoForItem(nextBooking) : null
+                        .map(commentMapper::toItemWithBookingComment).collect(Collectors.toList()) : new ArrayList<>(),
+                lastBooking != null ? bookingMapper.toBookingDtoForItem(lastBooking) : null,
+                nextBooking != null ? bookingMapper.toBookingDtoForItem(nextBooking) : null
         );
     }
 
-    public static Item toItem(ItemDto itemDto) {
+    public Item toItem(ItemDto itemDto, User owner) {
         return new Item(
                 itemDto.getId(),
-                null,
+                owner,
                 itemDto.getName(),
                 itemDto.getDescription(),
-                itemDto.getAvailable()
+                itemDto.getAvailable(),
+                itemDto.getRequestId()
         );
     }
 

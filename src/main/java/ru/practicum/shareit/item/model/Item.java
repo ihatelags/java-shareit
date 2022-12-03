@@ -18,8 +18,8 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
-    private long id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    private Long id;
+    @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
     @Column(name = "name")
@@ -28,4 +28,7 @@ public class Item {
     private String description;
     @Column(name = "is_available")
     private boolean available;
+    @JoinColumn(name = "request_id")
+    private Long requestId;
+
 }

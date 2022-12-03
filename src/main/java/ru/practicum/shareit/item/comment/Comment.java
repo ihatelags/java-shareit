@@ -21,10 +21,10 @@ public class Comment {
     private long id;
     @Column(name = "text")
     private String text;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
     @Column(name = "created_date")

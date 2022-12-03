@@ -9,9 +9,9 @@ import java.util.List;
 public interface ItemService {
     ItemDtoWithBooking getById(long itemId, long userId);
 
-    List<ItemDtoWithBooking> getAllByUserId(long userId);
+    List<ItemDtoWithBooking> getAllByUserId(long userId, int from, int size);
 
-    List<ItemDto> searchByText(String text);
+    List<ItemDto> searchByText(String text, int from, int size);
 
     ItemDto add(long userId, ItemDto itemDto);
 

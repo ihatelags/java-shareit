@@ -21,11 +21,11 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "booking_id")
-    private long id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    private Long id;
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "booker_id")
     private User booker;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
     @Column(name = "start_date")

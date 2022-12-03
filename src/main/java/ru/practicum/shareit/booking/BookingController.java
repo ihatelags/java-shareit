@@ -11,6 +11,8 @@ import ru.practicum.shareit.exception.ValidationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
@@ -61,6 +63,10 @@ public class BookingController {
     public List<BookingOutputDto> getAllBookingByUser(@RequestHeader("X-Sharer-User-Id") long userId,
                                                       @RequestParam(value = "state", required = false,
                                                               defaultValue = "ALL") String stateParam,
+                                                      @PositiveOrZero @RequestParam(name = "from",
+                                                              defaultValue = "0") int from,
+                                                      @Positive @RequestParam(name = "size",
+                                                              defaultValue = "10") int size,
                                                       HttpServletRequest httpServletRequest) {
         StateStatus state = StateStatus.fromString(stateParam);
 
@@ -69,13 +75,17 @@ public class BookingController {
                 httpServletRequest.getRequestURI(),
                 userId,
                 state);
-        return bookingService.getAllBookingByUser(userId, state);
+        return bookingService.getAllBookingByUser(userId, state, from, size);
     }
 
     @GetMapping("/owner")
     public List<BookingOutputDto> getAllBookingByOwner(@RequestHeader("X-Sharer-User-Id") long userId,
                                                        @RequestParam(value = "state", required = false,
                                                                defaultValue = "ALL") String stateParam,
+                                                       @PositiveOrZero @RequestParam(name = "from",
+                                                               defaultValue = "0") int from,
+                                                       @Positive @RequestParam(name = "size",
+                                                               defaultValue = "10") int size,
                                                        HttpServletRequest httpServletRequest) {
         StateStatus state = StateStatus.fromString(stateParam);
 
@@ -84,6 +94,6 @@ public class BookingController {
                 httpServletRequest.getRequestURI(),
                 userId,
                 state);
-        return bookingService.getAllBookingByOwner(userId, state);
+        return bookingService.getAllBookingByOwner(userId, state, from, size);
     }
 }

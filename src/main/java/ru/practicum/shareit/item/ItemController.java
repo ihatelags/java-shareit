@@ -13,6 +13,8 @@ import ru.practicum.shareit.validate.OnCreate;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
@@ -39,22 +41,30 @@ public class ItemController {
     @GetMapping
     @Transactional(rollbackOn = Exception.class)
     public List<ItemDtoWithBooking> getAllByUserId(@RequestHeader("X-Sharer-User-Id") long userId,
+                                                   @PositiveOrZero @RequestParam(name = "from",
+                                                           defaultValue = "0") int from,
+                                                   @Positive @RequestParam(name = "size",
+                                                           defaultValue = "10") int size,
                                                    HttpServletRequest httpServletRequest) {
         log.info("Получен запрос {} к эндпоинту: {}, user id: {}",
                 httpServletRequest.getMethod(),
                 httpServletRequest.getRequestURI(),
                 userId);
-        return itemService.getAllByUserId(userId);
+        return itemService.getAllByUserId(userId, from, size);
     }
 
     @GetMapping("/search")
     public List<ItemDto> searchByText(@RequestParam(value = "text", required = false) String text,
+                                      @PositiveOrZero @RequestParam(name = "from",
+                                              defaultValue = "0") int from,
+                                      @Positive @RequestParam(name = "size",
+                                              defaultValue = "10") int size,
                                       HttpServletRequest httpServletRequest) {
         log.info("Получен запрос {} к эндпоинту: {}, текст поиска: {}",
                 httpServletRequest.getMethod(),
                 httpServletRequest.getRequestURI(),
                 text);
-        return itemService.searchByText(text);
+        return itemService.searchByText(text, from, size);
     }
 
     @PostMapping
