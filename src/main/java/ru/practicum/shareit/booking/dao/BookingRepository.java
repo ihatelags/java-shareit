@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking.dao;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
@@ -9,29 +10,34 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    Optional<List<Booking>> findAllByBookerIdOrderByStartDesc(long bookerId);
+    List<Booking> findAllByBookerIdOrderByStartDesc(long bookerId, Pageable pageable);
 
-    Optional<List<Booking>> findAllByBookerIdAndStatusOrderByStartDesc(long bookerId, BookingStatus status);
+    List<Booking> findAllByBookerIdAndStatusOrderByStartDesc(long bookerId, BookingStatus status,
+                                                             Pageable pageable);
 
-    Optional<List<Booking>> findAllByBookerIdAndStartBeforeAndEndAfterOrderByStartDesc(long bookerId,
-                                                                                       LocalDateTime start,
-                                                                                       LocalDateTime end);
+    List<Booking> findAllByBookerIdAndStartBeforeAndEndAfterOrderByStartDesc(long bookerId,
+                                                                             LocalDateTime start,
+                                                                             LocalDateTime end,
+                                                                             Pageable pageable);
 
-    Optional<List<Booking>> findAllByBookerIdAndStartIsAfterOrderByStartDesc(long bookerId, LocalDateTime start);
+    List<Booking> findAllByBookerIdAndStartIsAfterOrderByStartDesc(long bookerId, LocalDateTime start,
+                                                                   Pageable pageable);
 
-    Optional<List<Booking>> findAllByBookerIdAndEndIsBeforeOrderByStartDesc(long bookerId, LocalDateTime end);
+    List<Booking> findAllByBookerIdAndEndIsBeforeOrderByStartDesc(long bookerId, LocalDateTime end,
+                                                                  Pageable pageable);
 
-    List<Booking> findAllByItemIdOrderByStartDesc(long itemId);
+    List<Booking> findAllByItemOwnerIdOrderByStartDesc(Long userId, Pageable page);
 
-    List<Booking> findAllByItemIdAndStatusOrderByStartDesc(long itemId, BookingStatus status);
+    List<Booking> findAllByItemOwnerIdAndStatusOrderByStartDesc(Long userId, BookingStatus status, Pageable page);
 
-    List<Booking> findAllByItemIdAndStartBeforeAndEndAfterOrderByStartDesc(long itemId,
-                                                                           LocalDateTime start,
-                                                                           LocalDateTime end);
+    List<Booking> findAllByItemOwnerIdAndStartBeforeAndEndAfterOrderByStartDesc(Long itemOwnerId,
+                                                                                LocalDateTime start,
+                                                                                LocalDateTime end,
+                                                                                Pageable page);
 
-    List<Booking> findAllByItemIdAndStartIsAfterOrderByStartDesc(long itemId, LocalDateTime start);
+    List<Booking> findAllByItemOwnerIdAndStartIsAfterOrderByStartDesc(Long userId, LocalDateTime now, Pageable page);
 
-    List<Booking> findAllByItemIdAndEndIsBeforeOrderByStartDesc(long itemId, LocalDateTime end);
+    List<Booking> findAllByItemOwnerIdAndEndIsBeforeOrderByStartDesc(Long userId, LocalDateTime now, Pageable page);
 
     boolean existsBookingByBookerIdAndItemIdAndStatusEqualsAndEndIsBefore(long bookerId, long itemId,
                                                                           BookingStatus status, LocalDateTime end);

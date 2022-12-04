@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 public class UserDto {
-    private long id;
+    private Long id;
     @NotBlank(groups = OnCreate.class)
     private String name;
     @Email(groups = OnCreate.class)
